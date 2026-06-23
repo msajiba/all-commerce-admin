@@ -6,6 +6,7 @@ import { clearSession, getSessionToken, setSession } from "@/lib/session";
 
 export type AuthState = { error?: string };
 export type SetupState = { error?: string };
+export type UpdateThemeState = { error?: string; success?: boolean };
 
 export async function signUpAction(
   _prevState: AuthState,
@@ -67,6 +68,31 @@ export async function createStoreAction(
   }
 
   redirect("/dashboard");
+}
+
+export async function updateThemeAction(
+  _prevState: UpdateThemeState,
+  formData: FormData,
+): Promise<UpdateThemeState> {
+  const token = await getSessionToken();
+  if (!token) redirect("/signin");
+
+  const theme = String(formData.get("theme") ?? "");
+  const subdomain = String(formData.get("subdomain") ?? "");
+
+  if (!theme) return { error: "Please select a theme." };
+  if (!subdomain) return { error: "Store not found." };
+
+  const result = await api.updateStore(token, subdomain, { theme });
+  if (!result.ok) {
+    if (result.status === 401) {
+      await clearSession();
+      redirect("/signin");
+    }
+    return { error: result.error };
+  }
+
+  return { success: true };
 }
 
 export async function signOutAction(): Promise<void> {

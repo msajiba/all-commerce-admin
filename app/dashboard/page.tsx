@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { fetchMe } from "@/lib/api";
 import { getSessionToken } from "@/lib/session";
 import { signOutAction } from "@/app/actions";
+import { ThemeForm } from "@/components/ThemeForm";
 
 export const metadata: Metadata = {
   title: "Dashboard — Admin",
@@ -95,6 +96,13 @@ export default async function DashboardPage() {
                   <p className="mt-1 text-xs text-zinc-500">
                     Click to open your live storefront in a new tab.
                   </p>
+                </div>
+
+                <div className="mt-5 border-t border-zinc-100 pt-5">
+                  <ThemeForm
+                    subdomain={store.subdomain}
+                    currentTheme={store.theme}
+                  />
                 </div>
               </div>
             );

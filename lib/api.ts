@@ -100,3 +100,15 @@ export function createStore(
     body: JSON.stringify(body),
   });
 }
+
+export function updateStore(
+  token: string,
+  subdomain: string,
+  body: { theme: string },
+): Promise<ApiResult<{ store: StoreSummary }>> {
+  return request(`/stores/${encodeURIComponent(subdomain)}`, {
+    method: "PATCH",
+    token,
+    body: JSON.stringify(body),
+  });
+}
