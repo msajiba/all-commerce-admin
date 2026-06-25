@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { fetchMe } from "@/lib/api";
 import { getSessionToken } from "@/lib/session";
-import { signOutAction } from "@/app/actions";
 import { ThemeForm } from "@/components/ThemeForm";
 
 export const metadata: Metadata = {
@@ -29,27 +28,8 @@ export default async function DashboardPage() {
   if (stores.length === 0) redirect("/setup");
 
   return (
-    <main className="flex-1 bg-zinc-100">
-      <header className="border-b border-zinc-200 bg-white">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
-              Store Admin
-            </p>
-            <h1 className="text-xl font-semibold text-zinc-900">Dashboard</h1>
-          </div>
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              className="rounded-lg border border-zinc-300 px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50"
-            >
-              Sign out
-            </button>
-          </form>
-        </div>
-      </header>
-
-      <section className="mx-auto max-w-4xl px-6 py-8">
+    <div>
+      <section className="mx-auto max-w-4xl">
         <p className="text-sm text-zinc-600">
           Signed in as{" "}
           <span className="font-medium text-zinc-900">{user.name}</span> (
@@ -109,6 +89,6 @@ export default async function DashboardPage() {
           })}
         </div>
       </section>
-    </main>
+    </div>
   );
 }
